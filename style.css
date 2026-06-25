@@ -562,40 +562,11 @@ p {
     z-index: 9999;
 }
 
-/* Language Switcher Button */
-.lang-switch-btn {
-    position: fixed;
-    top: 2rem;
-    right: 2.5rem;
-    background: transparent;
-    border: 1px solid var(--ink-black);
-    color: var(--ink-black);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-    cursor: pointer;
-    z-index: 1000;
-    letter-spacing: 1px;
-    transition: var(--transition);
-}
-
-.lang-switch-btn:hover {
-    background: var(--ink-black);
-    color: var(--bg-paper);
-}
-
 /* Responsive */
 @media (max-width: 992px) {
     body {
         padding-left: 0;
         padding-top: 60px;
-    }
-    
-    .lang-switch-btn {
-        top: 15px;
-        right: 1.5rem;
-        padding: 0.2rem 0.5rem;
-        font-size: 0.7rem;
     }
     
     .sidebar-nav {
