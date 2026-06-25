@@ -1,4 +1,42 @@
+let currentLang = localStorage.getItem('portfolio_lang') || 'en';
+let cardObserver = null;
+
+function observeCards() {
+    if (!cardObserver) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -30% 0px',
+            threshold: 0
+        };
+
+        cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view');
+                }
+            });
+        }, observerOptions);
+    } else {
+        cardObserver.disconnect();
+    }
+
+    document.querySelectorAll('.editorial-card, .gallery-item').forEach(card => {
+        cardObserver.observe(card);
+    });
+}
+
+function updateNavLabels() {
+    document.querySelectorAll('.sidebar-links a').forEach(a => {
+        const text = a.getAttribute(`data-${currentLang}`);
+        if (text) a.textContent = text;
+    });
+}
+
 function renderPortfolio(data) {
+    if (!data) return;
+
     // Render Hero
     const heroContainer = document.getElementById('hero-container');
     if (heroContainer && data.hero) {
@@ -48,12 +86,12 @@ function renderPortfolio(data) {
         `).join('');
 
         eduGrid.innerHTML = `
-            <div class="magazine-column">
-                <h3 class="column-title">Degrees</h3>
+            <div class="editorial-col border-right">
+                <h3 class="col-header">${currentLang === 'en' ? 'Academic Background' : '学业背景'}</h3>
                 ${degreesHtml}
             </div>
-            <div class="magazine-column border-left">
-                <h3 class="column-title">Honors & Leadership</h3>
+            <div class="editorial-col">
+                <h3 class="col-header">${currentLang === 'en' ? 'Honors & Leadership' : '荣誉与领导力'}</h3>
                 <ul class="editorial-list">
                     ${honorsHtml}
                 </ul>
@@ -121,7 +159,23 @@ function renderPortfolio(data) {
             const isReverse = index % 2 !== 0;
             const reverseClass = isReverse ? ' reverse' : '';
             
-            const imageContent = `<img src="${proj.image}" alt="${proj.title}">`;
+            let imageContent = '';
+            if (proj.images && proj.images.length >= 2) {
+                imageContent = `
+                    <div class="image-stack" style="padding-bottom: 1rem;">
+                        <div class="image-stack-bottom">
+                            <img src="${proj.images[1]}" alt="Secondary Image">
+                        </div>
+                        <div class="image-stack-top">
+                            <img src="${proj.images[0]}" alt="${proj.title}">
+                        </div>
+                    </div>
+                `;
+            } else {
+                const imgSrc = proj.images ? proj.images[0] : proj.image;
+                imageContent = `<img src="${imgSrc}" alt="${proj.title}">`;
+            }
+
             const imageHtml = `
                 <div class="gallery-image">
                     ${proj.url ? `<a href="${proj.url}" target="_blank">${imageContent}</a>` : imageContent}
@@ -153,15 +207,34 @@ function renderPortfolio(data) {
 
 function initPortfolio() {
     if (typeof window.portfolioData !== 'undefined') {
-        renderPortfolio(window.portfolioData);
+        renderPortfolio(window.portfolioData[currentLang]);
+        observeCards();
     }
+
+    // Language Switcher Logic
+    const langBtn = document.getElementById('lang-switch');
+    if (langBtn) {
+        langBtn.textContent = currentLang === 'en' ? '中文' : 'EN';
+        updateNavLabels();
+
+        langBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            localStorage.setItem('portfolio_lang', currentLang);
+            langBtn.textContent = currentLang === 'en' ? '中文' : 'EN';
+            
+            renderPortfolio(window.portfolioData[currentLang]);
+            updateNavLabels();
+            observeCards();
+        });
+    }
+
     // 1. Exact Path Ink Trailing Cursor Logic
     const canvas = document.getElementById('cursor-trail');
     const ctx = canvas.getContext('2d');
     
     let width, height;
     let trail = [];
-    const lifetime = 500; // How long the trail stays on screen (ms)
+    const lifetime = 500;
 
     function updateSize() {
         width = window.innerWidth;
@@ -175,32 +248,24 @@ function initPortfolio() {
 
     if (window.matchMedia("(pointer: fine)").matches) {
         window.addEventListener('mousemove', e => {
-            // Push exact coordinates and current timestamp
             trail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
         });
 
         function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             const currentTime = Date.now();
-            // Filter out old points
             trail = trail.filter(p => currentTime - p.time < lifetime);
 
             if (trail.length > 1) {
                 for (let i = 0; i < trail.length - 1; i++) {
                     const p1 = trail[i];
                     const p2 = trail[i + 1];
-                    
-                    // Calculate opacity based on age (older = more transparent)
                     const ageRatio = 1 - ((currentTime - p1.time) / lifetime);
-                    const opacity = Math.max(0, ageRatio * 0.5); // Max opacity 0.5
+                    const opacity = Math.max(0, ageRatio * 0.5);
                     
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
-                    
-                    // Draw a smooth line to the next point
                     ctx.lineTo(p2.x, p2.y);
-                    
                     ctx.strokeStyle = `rgba(17, 17, 17, ${opacity})`;
                     ctx.lineWidth = 1.5;
                     ctx.lineCap = 'round';
@@ -208,19 +273,17 @@ function initPortfolio() {
                     ctx.stroke();
                 }
             }
-
             requestAnimationFrame(render);
         }
         render();
     }
 
-    // 2. Smooth Scrolling & Navigation Highlighting (Editorial Style)
+    // 2. Smooth Scrolling & Navigation Highlighting
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.sidebar-links a');
 
     window.addEventListener('scroll', () => {
         let current = '';
-        
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             if (pageYOffset >= (sectionTop - 300)) {
@@ -234,27 +297,6 @@ function initPortfolio() {
                 link.classList.add('active');
             }
         });
-    });
-
-    // 3. Intersection Observer for coloring images when scrolled into view
-    const observerOptions = {
-        root: null,
-        rootMargin: '-30% 0px -30% 0px',
-        threshold: 0
-    };
-
-    const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-            } else {
-                entry.target.classList.remove('in-view');
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.editorial-card, .gallery-item').forEach(card => {
-        cardObserver.observe(card);
     });
 }
 
