@@ -13,6 +13,53 @@
     --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+html[lang="zh-CN"] {
+    --font-heading: 'LXGW WenKai', 'LXGW WenKai TC', 'HanziPen SC', 'Ma Shan Zheng', 'KaiTi', 'STKaiti', cursive, serif;
+    --font-body: 'LXGW WenKai', 'LXGW WenKai TC', 'KaiTi', 'STKaiti', 'PingFang SC', serif;
+}
+
+/* Chinese Layout & Typography Refinements */
+html[lang="zh-CN"] .hero-title {
+    font-size: 5rem;
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+html[lang="zh-CN"] .drop-cap {
+    font-size: 3.8rem;
+    line-height: 0.85;
+    padding-top: 2px;
+    padding-right: 10px;
+}
+
+html[lang="zh-CN"] .section-title {
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+}
+
+html[lang="zh-CN"] .article-headline,
+html[lang="zh-CN"] .card-headline {
+    font-size: 1.75rem;
+    line-height: 1.35;
+}
+
+html[lang="zh-CN"] .column-title {
+    font-size: 1.35rem;
+}
+
+@media (max-width: 992px) {
+    html[lang="zh-CN"] .hero-title {
+        font-size: 3.4rem;
+    }
+    html[lang="zh-CN"] .section-title {
+        font-size: 2rem;
+    }
+    html[lang="zh-CN"] .article-headline,
+    html[lang="zh-CN"] .card-headline {
+        font-size: 1.45rem;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -85,7 +132,7 @@ p {
 }
 
 .logo-sidebar {
-    font-family: var(--font-heading);
+    font-family: 'Caveat', var(--font-heading);
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--ink-black);
@@ -422,12 +469,16 @@ p {
 }
 
 .editorial-card:hover .image-stack-bottom,
-.editorial-card.in-view .image-stack-bottom {
+.editorial-card.in-view .image-stack-bottom,
+.gallery-item:hover .image-stack-bottom,
+.gallery-item.in-view .image-stack-bottom {
     transform: rotate(10deg) translate(15px, -5px);
 }
 
 .editorial-card:hover .image-stack-top,
-.editorial-card.in-view .image-stack-top {
+.editorial-card.in-view .image-stack-top,
+.gallery-item:hover .image-stack-top,
+.gallery-item.in-view .image-stack-top {
     transform: rotate(-2deg) translate(-10px, 5px);
     z-index: 3;
 }
@@ -435,7 +486,11 @@ p {
 .editorial-card:hover .image-stack-bottom img,
 .editorial-card:hover .image-stack-top img,
 .editorial-card.in-view .image-stack-bottom img,
-.editorial-card.in-view .image-stack-top img {
+.editorial-card.in-view .image-stack-top img,
+.gallery-item:hover .image-stack-bottom img,
+.gallery-item:hover .image-stack-top img,
+.gallery-item.in-view .image-stack-bottom img,
+.gallery-item.in-view .image-stack-top img {
     filter: grayscale(0%) contrast(1) brightness(1);
 }
 
@@ -451,12 +506,16 @@ p {
 }
 
 .editorial-card:hover .image-stack.flipped .image-stack-bottom,
-.editorial-card.in-view .image-stack.flipped .image-stack-bottom {
+.editorial-card.in-view .image-stack.flipped .image-stack-bottom,
+.gallery-item:hover .image-stack.flipped .image-stack-bottom,
+.gallery-item.in-view .image-stack.flipped .image-stack-bottom {
     transform: rotate(4deg) translate(10px, -10px);
 }
 
 .editorial-card:hover .image-stack.flipped .image-stack-top,
-.editorial-card.in-view .image-stack.flipped .image-stack-top {
+.editorial-card.in-view .image-stack.flipped .image-stack-top,
+.gallery-item:hover .image-stack.flipped .image-stack-top,
+.gallery-item.in-view .image-stack.flipped .image-stack-top {
     transform: rotate(-10deg) translate(-15px, 5px);
 }
 
@@ -649,3 +708,59 @@ p {
         flex-direction: column-reverse;
     }
 }
+
+/* Editorial Language Switcher Badge */
+.editorial-lang-badge {
+    position: fixed;
+    top: 2rem;
+    right: 2.5rem;
+    z-index: 1001;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    background: var(--bg-paper);
+    border: 1.5px solid var(--ink-black);
+    padding: 0.4rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 3px 3px 0px var(--ink-black);
+    transition: var(--transition);
+}
+
+.editorial-lang-badge:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--ink-black);
+}
+
+.editorial-lang-badge a {
+    color: var(--ink-light);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s;
+}
+
+.editorial-lang-badge a.active {
+    color: var(--ink-black);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.editorial-lang-badge a:hover:not(.active) {
+    color: var(--ink-black);
+}
+
+.editorial-lang-badge span.divider {
+    color: var(--border-light);
+}
+
+@media (max-width: 992px) {
+    .editorial-lang-badge {
+        top: auto;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        box-shadow: 2px 2px 0px var(--ink-black);
+    }
+}
+

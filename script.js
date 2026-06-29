@@ -49,11 +49,11 @@ function renderPortfolio(data) {
 
         eduGrid.innerHTML = `
             <div class="magazine-column">
-                <h3 class="column-title">Degrees</h3>
+                <h3 class="column-title">${data.education.degreesTitle || 'Degrees'}</h3>
                 ${degreesHtml}
             </div>
             <div class="magazine-column border-left">
-                <h3 class="column-title">Honors & Leadership</h3>
+                <h3 class="column-title">${data.education.honorsTitle || 'Honors & Leadership'}</h3>
                 <ul class="editorial-list">
                     ${honorsHtml}
                 </ul>
@@ -121,12 +121,29 @@ function renderPortfolio(data) {
             const isReverse = index % 2 !== 0;
             const reverseClass = isReverse ? ' reverse' : '';
             
-            const imageContent = `<img src="${proj.image}" alt="${proj.title}">`;
-            const imageHtml = `
-                <div class="gallery-image">
-                    ${proj.url ? `<a href="${proj.url}" target="_blank">${imageContent}</a>` : imageContent}
-                </div>
-            `;
+            let imageHtml = '';
+            if (proj.images && proj.images.length >= 2) {
+                imageHtml = `
+                    <div class="gallery-image">
+                        <div class="image-stack">
+                            <div class="image-stack-bottom">
+                                <img src="${proj.images[1]}" alt="${proj.title}">
+                            </div>
+                            <div class="image-stack-top">
+                                <img src="${proj.images[0]}" alt="${proj.title}">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const imgSrc = proj.images ? proj.images[0] : proj.image;
+                const imageContent = `<img src="${imgSrc}" alt="${proj.title}">`;
+                imageHtml = `
+                    <div class="gallery-image">
+                        ${proj.url ? `<a href="${proj.url}" target="_blank">${imageContent}</a>` : imageContent}
+                    </div>
+                `;
+            }
             
             const titleHtml = proj.url ? `<a href="${proj.url}" target="_blank">${proj.title}</a>` : proj.title;
             
