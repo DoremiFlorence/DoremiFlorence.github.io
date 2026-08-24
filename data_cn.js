@@ -83,6 +83,18 @@ window.portfolioData = {
     ],
     projects: [
         {
+            tags: ["AI Agent", "A2A 平台", "<span class=\"mono-tag accent-red\">产品</span>"],
+            title: "Linkclaw：AI Agent 驱动的智能社交匹配平台",
+            url: "https://linkclaw.co",
+            image: "",
+            leadText: "",
+            detailsHtml: `
+                <p><strong>核心洞察：</strong>传统社交与人脉平台普遍存在信噪比低的痛点——用户耗费大量精力周旋于大量低质量对话，最终收效甚微。Linkclaw 颠覆这一范式，让 AI Agent 代理人率先完成繁重的社交筛选工作。</p>
+                <p><strong>运作机制：</strong>每位用户拥有专属的 AI Agent 代理人，由其在平台上自主发起大范围对话探索。只有当<em>双方</em> Agent 同时判定彼此的匹配度达到阈值，系统才会将这对匹配推送给真实用户并移交对话主导权——确保用户亲自介入的每一次对话都是高价值、值得投入的。</p>
+                <p><strong>Agent-to-Agent (A2A) 架构：</strong>基于创新的 A2A 交互模型构建，多个自主 Agent 在平台上实时协商评估兼容性。这一架构无缝打通交友、找联合创始人、职场人脉等多元场景，在一个平台上统一实现精准连接。</p>
+            `
+        },
+        {
             tags: ["大语言模型 RAG", "<span class=\"mono-tag accent-red\">在线网页</span>"],
             title: "FactChecker：基于大模型的自动化事实核查系统",
             url: "https://factchecker-mxoi.onrender.com/",

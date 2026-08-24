@@ -81,6 +81,18 @@ window.portfolioData = {
     ],
     projects: [
         {
+            tags: ["AI AGENT", "A2A PLATFORM", "<span class=\"mono-tag accent-red\">PRODUCT</span>"],
+            title: "Linkclaw: AI Agent-Powered Social Matchmaking",
+            url: "https://linkclaw.co",
+            image: "",
+            leadText: "",
+            detailsHtml: `
+                <p><strong>Core Insight:</strong> Traditional social and networking platforms are plagued by low signal-to-noise ratios — users spend enormous time in shallow conversations that lead nowhere. Linkclaw flips the paradigm by letting AI Agents do the heavy social lifting first.</p>
+                <p><strong>How It Works:</strong> Each user's personal AI Agent autonomously engages in wide-net conversations across the platform. Only when <em>both</em> agents mutually determine that compatibility is sufficiently high does the system surface the match and hand off to the real humans — ensuring every conversation a user enters is high-signal and worth their time.</p>
+                <p><strong>Agent-to-Agent (A2A) Architecture:</strong> Built on a novel A2A interaction model where autonomous agents negotiate compatibility in real time. This unlocks use cases across dating, co-founder matching, and job networking — all within a single platform.</p>
+            `
+        },
+        {
             tags: ["LLM", "<span class=\"mono-tag accent-red\">WEBPAGE</span>"],
             title: "FactChecker: LLM-Based Fact-Checking Tool",
             url: "https://factchecker-mxoi.onrender.com/",
