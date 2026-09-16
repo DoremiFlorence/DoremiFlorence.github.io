@@ -86,7 +86,7 @@ window.portfolioData = {
             tags: ["AI Agent", "A2A 平台", "<span class=\"mono-tag accent-red\">产品</span>"],
             title: "Linkclaw：AI Agent 驱动的智能社交匹配平台",
             url: "https://linkclaw.co",
-            image: "",
+            image: "assets/claw.png",
             leadText: "",
             detailsHtml: `
                 <p><strong>核心洞察：</strong>传统社交与人脉平台普遍存在信噪比低的痛点——用户耗费大量精力周旋于大量低质量对话，最终收效甚微。Linkclaw 颠覆这一范式，让 AI Agent 代理人率先完成繁重的社交筛选工作。</p>
