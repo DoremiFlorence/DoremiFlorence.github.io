@@ -84,7 +84,7 @@ window.portfolioData = {
             tags: ["AI AGENT", "A2A PLATFORM", "<span class=\"mono-tag accent-red\">PRODUCT</span>"],
             title: "Linkclaw: AI Agent-Powered Social Matchmaking",
             url: "https://linkclaw.co",
-            image: "",
+            image: "assets/claw.png",
             leadText: "",
             detailsHtml: `
                 <p><strong>Core Insight:</strong> Traditional social and networking platforms are plagued by low signal-to-noise ratios — users spend enormous time in shallow conversations that lead nowhere. Linkclaw flips the paradigm by letting AI Agents do the heavy social lifting first.</p>
